@@ -1,22 +1,21 @@
-import { BaseResourceModel } from "../models/base-resource.model";
+import { BaseResourceModel } from '../models/base-resource.model';
 
-import { Injector } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { Injector } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-import { Observable, throwError } from "rxjs";
-import { map, catchError } from "rxjs/operators";
-
+import { Observable, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 export abstract class BaseResourceService<T extends BaseResourceModel> {
 
   protected http: HttpClient;
 
   constructor(
-    protected apiPath: string, 
-    protected injector: Injector, 
+    protected apiPath: string,
+    protected injector: Injector,
     protected jsonDataToResourceFn: (jsonData: any) => T
-  ){
-    this.http = injector.get(HttpClient);    
+  ) {
+    this.http = injector.get(HttpClient);
   }
 
   getAll(): Observable<T[]> {
@@ -31,7 +30,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
 
     return this.http.get(url).pipe(
       map(this.jsonDataToResource.bind(this)),
-      catchError(this.handleError)      
+      catchError(this.handleError)
     )
   }
 
@@ -60,8 +59,6 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
     )
   }
 
-  
-
   // PROTECTED METHODS
 
   protected jsonDataToResources(jsonData: any[]): T[] {
@@ -77,8 +74,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   }
 
   protected handleError(error: any): Observable<any>{
-    console.log("ERRO NA REQUISIÇÃO => ", error);
+    console.log('ERRO NA REQUISIÇÃO => ', error);
     return throwError(error);
   }
-
 }
