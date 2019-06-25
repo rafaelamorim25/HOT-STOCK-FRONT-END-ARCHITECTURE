@@ -1,21 +1,30 @@
-import { OnInit } from '@angular/core';
+import { OnInit, Injector } from '@angular/core';
 
 import { BaseResourceModel } from '../../models/base-resource.model';
 import { BaseResourceService } from '../../services/base-resource.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 export abstract class BaseResourceListComponent<T extends BaseResourceModel>
   implements OnInit {
   resources: T[] = [];
+  searchForm: FormGroup;
+  formBuilder: FormBuilder;
 
-  constructor(private resourceService: BaseResourceService<T>) {}
+  constructor(protected injector: Injector, private resourceService: BaseResourceService<T>) {
+    this.formBuilder = this.injector.get(FormBuilder);
+  }
 
   ngOnInit() {
-    this.resourceService
-      .getAll()
-      .subscribe(
-        resources => (this.resources = resources.sort((a, b) => b.id - a.id)),
-        error => alert('Erro ao carregar a lista')
-      );
+    this.buildSearchForm();
+    this.refresh();
+  }
+
+  private buildSearchForm(){
+    this.searchForm = this.formBuilder.group(
+      {
+        keyword: ['']
+      }
+    )
   }
 
   deleteResource(resource: T) {
@@ -32,5 +41,16 @@ export abstract class BaseResourceListComponent<T extends BaseResourceModel>
           () => alert('Erro ao tentar excluir!')
         );
     }
+  }
+
+  abstract search()
+
+  refresh(){
+    this.resourceService
+    .getAll()
+    .subscribe(
+      resources => (this.resources = resources.sort((a, b) => b.id - a.id)),
+      error => alert('Erro ao carregar a lista')
+    );
   }
 }

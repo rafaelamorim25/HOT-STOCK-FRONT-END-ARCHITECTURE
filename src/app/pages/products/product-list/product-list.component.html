@@ -1,48 +1,54 @@
-<app-bread-crumb
-  [items]="[{text: 'Produtos'}]"
-></app-bread-crumb>
+<div class="container">
+    <app-bread-crumb [items]="[{text: 'Produtos'}]"></app-bread-crumb>
 
-<app-page-header
-  page-title="Produtos"
-  button-text="+ Novo Produto"
-  button-link="new"
-  button-class="btn-success"
-></app-page-header>
+    <app-page-header page-title="Produtos" button-text="Inserir" button-link="new" button-class="btn-primary"></app-page-header>
 
+    <div class="container mb-4" align="center">
+        <form [formGroup]="searchForm" (click)="search()" class="col-6">
+            <div class="row form-group">
+                <div class="form-group col-md-9" style="text-align: left">
+                    <input type="text" class="form-control" name="keyword" id="keyword" placeholder="Pesquise um Produto" formControlName="keyword">
+                </div>
+                <div class="form-group col-md-3" style="text-align: right">
+                    <button type="submit" class="btn btn-primary form-control md-2">Buscar</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
-<table class="table table-hover">
-  <thead>
-    <tr class="bg-primary text-light">
-      <th>Nome do Produto</th>
-      <th>Preço de Compra</th>
-      <th>Preço de Venda</th>
-      <th>Quantidade</th>
-      <th>Categoria</th>
-      <th class="text-center">Ações</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let produto of resources">
-      <td>
-        <strong>{{produto.nome}}</strong><br>
-      </td>
-      <td>
-        {{produto.precoCompra}}
-      </td>
-      <td>
-        {{produto.precoVenda}}
-      </td>
-      <td>
-        {{produto.quantidade}}
-      </td>
-      <td>
-        {{produto.categoria.nome}}
-      </td>
-      <td class="text-center">
-        <a [routerLink]="[produto.id, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
-        <button (click)="deleteResource(produto)" class="btn btn-outline-danger btn-sm">Excluir</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+    <table class="table table-hover">
+        <thead>
+            <tr class="bg-primary text-light">
+                <th>Nome do Produto</th>
+                <th>Preço de Compra</th>
+                <th>Preço de Venda</th>
+                <th>Quantidade</th>
+                <th>Categoria</th>
+                <th class="text-center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let produto of resources">
+                <td>
+                    <strong>{{produto.nome}}</strong><br>
+                </td>
+                <td>
+                    {{produto.precoCompra}}
+                </td>
+                <td>
+                    {{produto.precoVenda}}
+                </td>
+                <td>
+                    {{produto.quantidade}}
+                </td>
+                <td>
+                    {{produto.categoria.nome}}
+                </td>
+                <td class="text-center">
+                    <a [routerLink]="[produto.id, 'edit']" class="btn btn-sm mr-2"><i class="fas fa-edit"></i></a>
+                    <a (click)="deleteResource(produto)" class="btn btn-sm text-danger"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

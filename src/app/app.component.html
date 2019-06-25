@@ -1,5 +1,5 @@
-<app-navbar></app-navbar>
-
-<div class="container">
-  <router-outlet></router-outlet>
+<div *ngIf="naoEstouNoLogin()">
+    <app-navbar></app-navbar>
 </div>
+
+<router-outlet></router-outlet>

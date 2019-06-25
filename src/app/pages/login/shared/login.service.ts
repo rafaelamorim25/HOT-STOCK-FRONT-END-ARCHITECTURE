@@ -1,14 +1,13 @@
-import { Observable, throwError } from 'rxjs';
-import { User } from './user.model';
-import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, catchError } from 'rxjs/operators';
-import { HttpXsrfCookieExtractor } from '@angular/common/http/src/xsrf';
+import { Observable } from 'rxjs';
+import { User } from './user.model';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class LoginService {
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private router: Router){}
 
   login(user: User){
     console.log(JSON.stringify(user));
@@ -18,13 +17,17 @@ export class LoginService {
     ('http://localhost:8080/login', user, {headers: headers, observe: 'response'});
 
     resp.subscribe(
-      r => localStorage.setItem('Authorization', r.headers.get('Authorization'))
+      r => {
+          if(r.headers.get('Authorization') !== null){
+            localStorage.setItem('Authorization', r.headers.get('Authorization'));
+            this.router.navigate(['/home']);
+          }
+      }
     );
-
-    console.log('Autorização armazenada: ', localStorage.getItem('Authorization'));
   }
 
   logout() {
     localStorage.removeItem('Authorization');
+    this.router.navigate(['/login']);
   }
 }

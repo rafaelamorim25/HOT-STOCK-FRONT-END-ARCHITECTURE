@@ -1,3 +1,40 @@
-<p>
-  login-form works!
-</p>
+<nav class="navbar navbar-light navbar-expand-lg bg-light mb-4">
+    <div class="container">
+        <a class="navbar-brand text-danger" routerLink="/login"><i class="fas fa-burn"></i>&nbsp;Hot Stock</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link text-danger">Contato</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link text-danger">Registre-se</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" routerLink="/login">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div align="center">
+    <h2 style="margin-top: 80px">Login</h2>
+    <form [formGroup]="loginForm" (submit)="onSubmit()" style="margin-top: 30px">
+        <div class="form-group col-md-3">
+            <label for="email" class="float-left">Email</label>
+            <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+        </div>
+        <div class="form-group col-md-3">
+            <label for="senha" class="float-left">Senha</label>
+            <input type="password" formControlName="senha" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.senha.errors }" />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary">Login</button>
+        </div>
+    </form>
+</div>
